@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET } = require('../config/config');/*
+const { NODE_ENV, JWT_SECRET } = process.env; */
 
 function signin(request, response, next) {
   const { email, password } = request.body;
@@ -10,13 +11,13 @@ function signin(request, response, next) {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'сaesars-cipher',
-        { expiresIn: '7d' }
+        JWT_SECRET,
+        { expiresIn: '7d' },
       );
       response.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        sameSite: true
+        sameSite: true,
       })
         .end();
     })

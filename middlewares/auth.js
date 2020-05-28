@@ -1,21 +1,22 @@
 const jwt = require('jsonwebtoken');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
-const CustomError = require('./error');
+/* const { NODE_ENV, JWT_SECRET } = process.env; */
+const { JWT_SECRET } = require('../config/config');
+const UnauthorizedErr = require('../errors/unauthorized-err');
 
 function auth(request, response, next) {
   const token = request.cookies.jwt;
   let payload;
   if (!token) {
-    throw new CustomError('Необходима авторизация', 401);
+    throw new UnauthorizedErr('Необходима авторизация');
   }
   try {
     payload = jwt.verify(
       token,
-      NODE_ENV === 'production' ? JWT_SECRET : 'сaesars-cipher'
+      JWT_SECRET,
     );
   } catch (err) {
-    throw new CustomError('Необходима авторизация', 401);
+    throw new UnauthorizedErr('Необходима авторизация');
   }
   request.user = payload;
   next();

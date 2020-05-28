@@ -5,30 +5,37 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { celebrate, Joi, errors } = require('celebrate');
+const helmet = require('helmet');
 
 // Подключение своих модулей
 const signup = require('./controllers/signup');
 const signin = require('./controllers/signin');
 const auth = require('./middlewares/auth');
-const getUser = require('./controllers/get-user');
-const routerArticle = require('./routes/articles');
+const { routerArticle, routerUser } = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const centralizedError = require('./middlewares/centralized-error');
+const NotFoundErr = require('./errors/not-found-err');
+const limiter = require('./middlewares/limiter');
 
 // Запуск
-const { PORT = 3000 } = process.env;
+const { PORT, DB_PORT } = require('./config/config');/*
+const { PORT = 3000, DB_PORT, NODE_ENV } = process.env; */
 const app = express();
 
 // Подключение к MongoDB
-mongoose.connect('mongodb://localhost:27017/newsdb', {
+mongoose.connect(DB_PORT, {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useFindAndModify: true
+  useFindAndModify: true,
 });
 
 // Подключение parser'ов для приема данных
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+// Подключение rate-limiter'a
+app.use(limiter);
+app.use(helmet());
 
 // Логгер запросов
 app.use(requestLogger);
@@ -39,16 +46,16 @@ app.post('/signup',
     body: Joi.object().keys({
       email: Joi.string().required().email(),
       password: Joi.string().required().min(8),
-      name: Joi.string().required().min(2).max(30)
-    })
+      name: Joi.string().required().min(2).max(30),
+    }),
   }),
   signup);
 app.post('/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
-      password: Joi.string().required().min(8)
-    })
+      password: Joi.string().required().min(8),
+    }),
   }),
   signin);
 
@@ -56,10 +63,10 @@ app.post('/signin',
 app.use(auth);
 
 // Обработчики запросов
-app.get('/users/me', getUser);
+app.use('/users/me', routerUser);
 app.use('/articles', routerArticle);
-app.use('*', (request, response) => {
-  response.status(404).send({ "message": "Запрашиваемый ресурс не найден" });
+app.use('*', () => {
+  throw new NotFoundErr('Запрашиваемый ресурс не найден');
 });
 
 // Логгер ошибок

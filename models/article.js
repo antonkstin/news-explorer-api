@@ -4,36 +4,40 @@ const validator = require('validator');
 const schemaArticle = new mongoose.Schema({
   keyword: {
     type: String,
-    required: true
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
   },
   text: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: String,
-    required: true
+    required: true,
   },
   source: {
     type: String,
-    required: true
+    required: true,
   },
   link: {
     type: String,
     required: true,
-    validate: validator.isURL
+    validate: validator.isURL,
   },
   image: {
     type: String,
     required: true,
-    validate: validator.isURL
+    validate: validator.isURL,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true,
-    select: false
-  }
+    select: false,
+  },
 }, { versionKey: false });
 
 module.exports = mongoose.model('article', schemaArticle);

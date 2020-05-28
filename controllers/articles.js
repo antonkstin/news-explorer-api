@@ -1,5 +1,6 @@
 const Article = require('../models/article');
-const CustomError = require('../middlewares/error');
+const NotFoundErr = require('../errors/not-found-err');
+const ForbiddenErr = require('../errors/forbidden-err');
 
 function getArticles(request, response, next) {
   Article.find({ owner: request.user._id })
@@ -9,7 +10,7 @@ function getArticles(request, response, next) {
 
 function createArticle(request, response, next) {
   const {
-    keyword, title, text, date, source, link, image
+    keyword, title, text, date, source, link, image,
   } = request.body;
 
   Article.create({
@@ -20,7 +21,7 @@ function createArticle(request, response, next) {
     source,
     link,
     image,
-    owner: request.user._id
+    owner: request.user._id,
   })
     .then((article) => {
       const articleWithoutOwner = article.toObject();
@@ -34,10 +35,10 @@ function deleteArticle(request, response, next) {
   Article.findById(request.params.id).select('+owner')
     .then((article) => {
       if (!article) {
-        throw new CustomError('Статья не найдена', 404);
+        throw new NotFoundErr('Статья не найдена');
       }
       if (article.owner.toString() !== request.user._id) {
-        throw new CustomError('Вы не можете удалять чужие статьи', 403);
+        throw new ForbiddenErr('Вы не можете удалять чужие статьи');
       }
       return article;
     })

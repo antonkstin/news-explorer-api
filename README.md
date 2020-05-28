@@ -1,7 +1,7 @@
 # news-explorer-api
 
 ## 84.201.146.216
-## https://find-news.website/
+## https://find-news.website/api
 
 ## v.1.0.0
 
