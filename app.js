@@ -12,6 +12,7 @@ const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const centralizedError = require('./middlewares/centralized-error');
 const limiter = require('./middlewares/limiter');
+const cors = require('./middlewares/cors');
 
 // Запуск
 const { PORT, DB_PORT } = require('./config/config');
@@ -35,6 +36,9 @@ app.use(helmet());
 
 // Логгер запросов
 app.use(requestLogger);
+
+// CORS
+app.use(cors);
 
 // Подключение единого роутера
 app.use(router);

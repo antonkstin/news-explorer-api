@@ -4,12 +4,3 @@
     "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   }
 }
-
-/* "import/no-dynamic-require": 0,
-    "quote-props": ["error", "consistent"],
-    "quotes": "off",
-    "comma-dangle": ["error", "never"],
-    "no-unused-vars": "off",
-    "func-names": ["error", "never"],
-    "consistent-return": "off",
-    "linebreak-style": "off" */
