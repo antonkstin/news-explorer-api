@@ -26,6 +26,9 @@ mongoose.connect(DB_PORT, {
   useFindAndModify: true,
 });
 
+// CORS
+app.use(cors);
+
 // Подключение parser'ов для приема данных
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -36,9 +39,6 @@ app.use(helmet());
 
 // Логгер запросов
 app.use(requestLogger);
-
-// CORS
-app.use(cors);
 
 // Подключение единого роутера
 app.use(router);
