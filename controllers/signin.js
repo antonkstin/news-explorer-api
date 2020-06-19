@@ -18,8 +18,8 @@ function signin(request, response, next) {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         domain: '',
-      })
-        .end();
+      });
+      response.send(user.name);
     })
     .catch(next);
 }
