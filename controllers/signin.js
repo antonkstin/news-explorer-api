@@ -18,8 +18,8 @@ function signin(request, response, next) {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         domain: '',
-      });
-      response.send({ message: 'Куки отправлены' });
+      })
+        .end();
     })
     .catch(next);
 }
