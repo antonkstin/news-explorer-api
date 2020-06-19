@@ -19,7 +19,9 @@ function signin(request, response, next) {
         httpOnly: true,
         domain: '',
       });
-      response.send(user.name);
+      const userWithoutPassword = user.toObject();
+      delete userWithoutPassword.password;
+      response.send(userWithoutPassword);
     })
     .catch(next);
 }
