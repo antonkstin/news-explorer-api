@@ -19,7 +19,7 @@ function signin(request, response, next) {
         httpOnly: true,
         domain: '',
       });
-      response.send(user);
+      response.send(user.name);
     })
     .catch(next);
 }
