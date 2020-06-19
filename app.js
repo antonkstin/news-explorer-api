@@ -38,7 +38,7 @@ app.use(helmet());
 app.use(requestLogger);
 
 // CORS
-app.use(cors({ origin: 'localhost:8080', credentials: true }));
+app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
 
 // Подключение единого роутера
 app.use(router);
