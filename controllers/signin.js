@@ -17,9 +17,9 @@ function signin(request, response, next) {
       response.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        sameSite: true,
-      })
-        .end();
+        domain: '',
+      });
+      response.send({ message: 'Куки отправлены' });
     })
     .catch(next);
 }
