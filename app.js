@@ -6,13 +6,13 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
+const cors = require('cors');
 
 // Подключение своих модулей
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const centralizedError = require('./middlewares/centralized-error');
 const limiter = require('./middlewares/limiter');
-const cors = require('./middlewares/cors');
 
 // Запуск
 const { PORT, DB_PORT } = require('./config/config');
@@ -27,7 +27,7 @@ mongoose.connect(DB_PORT, {
 });
 
 // CORS
-app.use(cors);
+app.use(cors({ origin: '*', credentials: true }));
 
 // Подключение parser'ов для приема данных
 app.use(bodyParser.json());
