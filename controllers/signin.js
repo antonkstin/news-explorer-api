@@ -21,7 +21,7 @@ function signin(request, response, next) {
       });
       const userWithoutPassword = user.toObject();
       delete userWithoutPassword.password;
-      response.send([userWithoutPassword, token]);
+      response.send(userWithoutPassword);
     })
     .catch(next);
 }
