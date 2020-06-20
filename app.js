@@ -19,6 +19,9 @@ const { PORT, DB_PORT } = require('./config/config');
 
 const app = express();
 
+// CORS
+app.use(cors(/* { origin: 'http://localhost:8080', credentials: true } */));
+
 // Подключение к MongoDB
 mongoose.connect(DB_PORT, {
   useNewUrlParser: true,
@@ -29,9 +32,6 @@ mongoose.connect(DB_PORT, {
 // Подключение parser'ов для приема данных
 app.use(bodyParser.json());
 app.use(cookieParser());
-
-// CORS
-app.use(cors(/* { origin: 'http://localhost:8080', credentials: true } */));
 
 // Подключение rate-limiter'a
 app.use(limiter);
