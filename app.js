@@ -32,7 +32,7 @@ app.use(cookieParser());
 
 // Подключение rate-limiter'a
 app.use(limiter);
-app.use(helmet());
+/* app.use(helmet()); */
 
 // Логгер запросов
 app.use(requestLogger);
