@@ -15,13 +15,13 @@ function signin(request, response, next) {
         { expiresIn: '7d' },
       );
       response.cookie('jwt', token, {
+        domain: '',
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        domain: '',
       });
       const userWithoutPassword = user.toObject();
       delete userWithoutPassword.password;
-      response.send(userWithoutPassword);
+      response.send([userWithoutPassword, token]);
     })
     .catch(next);
 }
