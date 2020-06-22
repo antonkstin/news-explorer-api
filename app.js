@@ -20,7 +20,7 @@ const { PORT, DB_PORT } = require('./config/config');
 const app = express();
 
 // CORS
-const allowedCors = ['https://antonkstin.github.io/', 'http://localhost:8080'];
+const allowedCors = ['https://antonkstin.github.io', 'http://localhost:8080'];
 const corsOptions = { origin: 'http://localhost:8080', credentials: true, secure: false };
 app.use((req, res, next) => {
   const { origin } = req.headers;
