@@ -17,7 +17,6 @@ function signin(request, response, next) {
       response.cookie('jwt', token, {
         domain: '',
         maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
       });
       const userWithoutPassword = user.toObject();
       delete userWithoutPassword.password;
