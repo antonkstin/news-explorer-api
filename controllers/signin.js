@@ -15,7 +15,7 @@ function signin(request, response, next) {
         { expiresIn: '7d' },
       );
       response.cookie('jwt', token, {
-        domain: '',
+        domain: 'https://antonkstin.github.io',
         maxAge: 3600000 * 24 * 7,
       });
       const userWithoutPassword = user.toObject();
