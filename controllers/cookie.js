@@ -1,13 +1,9 @@
 function deleteCookie(request, response, next) {
-  new Promise((resolve, reject) => {
-    response.cookie('jwt', '', {
-      domain: '',
-      maxAge: -1,
-    });
-    reject(next);
-  })
-    .then(() => { response.send({ message: 'Куки удалены' }); })
-    .catch(next);
+  response.cookie('jwt', 'deleted', {
+    domain: '',
+    maxAge: '1980-08-01T06:59:58.744Z',
+  });
+  next();
 }
 
 module.exports = deleteCookie;
