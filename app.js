@@ -20,7 +20,16 @@ const { PORT, DB_PORT } = require('./config/config');
 const app = express();
 
 // CORS
-app.use(cors({ origin: 'http://localhost:8080', credentials: true, secure: false }));
+const allowedCors = ['https://antonkstin.github.io/news-explorer-frontend/', 'http://localhost:8080'];
+const corsOptions = { origin: 'http://localhost:8080', credentials: true, secure: false };
+app.use((req, res, next) => {
+  const { origin } = req.headers;
+  if (allowedCors.includes(origin)) {
+    corsOptions.origin = origin;
+  }
+  next();
+});
+app.use(cors(corsOptions));
 
 // Подключение к MongoDB
 mongoose.connect(DB_PORT, {
