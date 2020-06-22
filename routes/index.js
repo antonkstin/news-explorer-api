@@ -4,6 +4,7 @@ const { celebrate, Joi } = require('celebrate');
 const signup = require('../controllers/signup');
 const signin = require('../controllers/signin');
 const auth = require('../middlewares/auth');
+const deleteCookie = require('../controllers/cookie');
 const routerUser = require('./users');
 const routerArticle = require('./articles');
 const NotFoundErr = require('../errors/not-found-err');
@@ -29,6 +30,8 @@ router.post('/signin',
 
 // Защита авторизацией
 router.use(auth);
+
+router.delete('/cookie', deleteCookie);
 
 // Обработчики запросов
 router.use('/users/me', routerUser);
