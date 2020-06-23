@@ -21,7 +21,7 @@ const app = express();
 
 // CORS
 const allowedCors = ['https://antonkstin.github.io', 'http://localhost:8080'];
-const corsOptions = { origin: 'http://localhost:8080', credentials: true };
+const corsOptions = { origin: 'http://localhost:8080', credentials: true, secure: false };
 app.use((req, res, next) => {
   const { origin } = req.headers;
   if (allowedCors.includes(origin)) {
